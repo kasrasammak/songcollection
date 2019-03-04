@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-// const logger = require("morgan");
+const logger = require("morgan");
 
 //mongoose connects app to the local mongodb server
 mongoose.connect('mongodb://localhost/songs', { useNewUrlParser: true });
@@ -27,7 +27,7 @@ var app = express();
 //(I dont completely understand this)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-// app.use(logger("dev"));
+app.use(logger("dev"));
 
 //sends routes to urls
 app.use('/api', routes);
