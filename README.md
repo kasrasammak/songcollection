@@ -1,2 +1,2 @@
 # songcollection
-Simple application whose purpose is to Add, Remove, Update, and Delete Song titles from a database collection. 
+Simple application whose purpose is to List, Add, Update, and Delete Song Titles from a database collection, stored in a MongoDB database. 
