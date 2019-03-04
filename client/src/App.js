@@ -13,8 +13,8 @@ class App extends Component {
     objectToUpdate: null
   };
 
-   // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so that we can easily see if our db has 
+   // fetch all existing data in our db at outset
+  // set interval to keep fetching data in order to see if our db has 
   // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
@@ -33,10 +33,6 @@ class App extends Component {
     }
   }
 
-  // just a note, here, in the front end, we use the id key of our data object 
-  // in order to identify which we want to Update or delete.
-  // for our back end, we use the object id assigned by MongoDB to modify 
-  // data base entries
 
   // our first get method that uses our backend api to 
   // fetch data from our data base
@@ -109,7 +105,6 @@ class App extends Component {
     const { data } = this.state;
     return (
       <div className="App">
-        <hi>hello</hi>
         <ul>
           {data.length <= 0
             ? "NO DB ENTRIES YET"
