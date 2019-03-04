@@ -13,7 +13,7 @@ class App extends Component {
     objectToUpdate: null
   };
 
-   // fetch all existing data in our db at outset
+  // fetch all existing data in our db at outset
   // set interval to keep fetching data in order to see if our db has 
   // changed and implement those changes into our UI
   componentDidMount() {
@@ -38,7 +38,7 @@ class App extends Component {
   // fetch data from our data base
   getDataFromDb = () => {
     fetch("http://localhost:3001/api/songs")
-      // .then(data => data.json())
+      .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
 
@@ -93,13 +93,7 @@ class App extends Component {
     });
   };
 
-  // uses backend api to 
-  // fetch data from our data base
-  getDataFromDb = () => {
-    fetch("http://localhost:3001/api/songs")
-      .then(data => data.json())
-      .then(res => this.setState({ data: res.data }));
-  };
+
 
   render() {
     const { data } = this.state;
