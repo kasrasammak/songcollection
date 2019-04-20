@@ -12,6 +12,7 @@ router.post('/', function(req, res, next){
             res.send(err);
         }
         res.json(song)
+        console.log(song)
     })
 })
 

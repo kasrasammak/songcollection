@@ -10,8 +10,8 @@ router.get('/', function(req, res, next){
             res.send(err);
         }
         res.json(songs);
-        console.log(songs);
-    },10);
+        console.log("Send songs")
+    });
 });
 
 module.exports = router;

@@ -10,28 +10,30 @@ class App extends Component {
     intervalIsSet: false,
     idToDelete: null,
     idToUpdate: null,
-    objectToUpdate: null
+    objectToUpdate: null,
+    updateToApply: null,
   };
 
-  // fetch all existing data in our db at outset
+ // fetch all existing data in our db at outset
   // set interval to keep fetching data in order to see if our db has 
   // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-    }
+    
+    // if (!this.state.intervalIsSet) {
+    //   let interval = setInterval(this.getDataFromDb, 1000);
+    //   this.setState({ intervalIsSet: interval });
+    // }
   }
 
-  // never let a process live forever 
-  // always kill a process everytime we are done using it
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-    }
-  }
+//   // never let a process live forever 
+//   // always kill a process everytime we are done using it
+//   componentWillUnmount() {
+//     if (this.state.intervalIsSet) {
+//       clearInterval(this.state.intervalIsSet);
+//       this.setState({ intervalIsSet: null });
+//     }
+//   }
 
 
   // our first get method that uses our backend api to 
@@ -39,11 +41,11 @@ class App extends Component {
   getDataFromDb = () => {
     fetch("http://localhost:3001/api/songs")
       .then(data => data.json())
-      .then(res => this.setState({ data: res.data }));
+      .then(res => this.setState({ data: res }))
   };
 
-  // our put method that uses our backend api
-  // to create new query into our data base
+//   // our put method that uses our backend api
+//   // to create new query into our data base
   putDataToDB = (title, artist) => {
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
@@ -55,7 +57,7 @@ class App extends Component {
       id: idToBeAdded,
       title: title,
       artist: artist
-    });
+    }).then(this.getDataFromDb);
   };
 
 
@@ -63,19 +65,21 @@ class App extends Component {
   // to remove existing database information
   deleteFromDB = idTodelete => {
     let objIdToDelete = null;
+    console.log(idTodelete)
     this.state.data.forEach(dat => {
-      if (dat.id === idTodelete) {
+      console.log(dat);
+      if (dat.id === parseInt(idTodelete, 10)) {
+        
+        console.log(dat);
+        
         objIdToDelete = dat._id;
       }
     });
-
-    axios.delete("http://localhost:3001/api/delete-song", {
-      data: {
-        id: objIdToDelete
-      }
-    });
-  };
-
+    if (objIdToDelete !== null){
+        axios.delete(`http://localhost:3001/api/delete-song/${objIdToDelete}`)
+        .then(this.getDataFromDb);
+    }
+  }
 
   // our update method that uses our backend api
   // to overwrite existing data base information
@@ -94,11 +98,12 @@ class App extends Component {
   };
 
 
-
   render() {
     const { data } = this.state;
+    console.log(data);
     return (
       <div className="App">
+        <h1>hi</h1>
         <ul>
           {data.length <= 0
             ? "NO DB ENTRIES YET"
@@ -136,6 +141,22 @@ class App extends Component {
             onChange={e => this.setState({ idToDelete: e.target.value })}
             placeholder="put id of item to delete here"
           />
+          <select
+            onChange={e => this.setState({ idToDelete: e.target.value })}
+            >
+            {data.length <= 0
+              ? "NO DB ENTRIES YET"
+              : data.map(dat => (
+                  <option 
+                    value={dat.id}
+                    key={data.title}
+                  >
+                      id: {dat.id}, 
+                      title: {dat.title}, 
+                      artist: {dat.artist}
+                  </option>
+                ))}
+          </select>
           <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
             DELETE
           </button>

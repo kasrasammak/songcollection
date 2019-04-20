@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-const logger = require("morgan");
+var path = require('path');
 
 //mongoose connects app to the local mongodb server
 mongoose.connect('mongodb://localhost/songs', { useNewUrlParser: true });
@@ -24,10 +24,30 @@ var updatesong = require('../routes/update-song')
 var app = express();
 
 //for parsing json files
-//(I dont completely understand this)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(logger("dev"));
+
+app.use(function(req, res, next) { 
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+   //intercepts OPTIONS method
+   if
+    ('OPTIONS' === req.method) { //respond with 200
+        res.send(200);
+    } else { //move on
+        next(); } 
+});
+
+
+app.options("/*",
+ function(req, res, next){ 
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.send(200);
+});
+ 
 
 //sends routes to urls
 app.use('/api', routes);
@@ -35,6 +55,12 @@ app.use('/api/songs', songs);
 app.use('/api/add-song', addsong);
 app.use('/api/delete-song', deletesong);
 app.use('/api/update-song', updatesong);
+
+//routes to static page
+app.use('/', express.static(path.join(__dirname, '../client/build')))
+
+
+
 
 //listens for localhost:3000 to run the application
 app.listen(3001, function(){

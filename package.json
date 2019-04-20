@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "concurrently \"cd backend && node app.js\" \"cd client && npm start\"",
+    "start": "concurrently \"nodemon --watch backend --watch models --watch routes backend/app.js\" \"cd client && npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

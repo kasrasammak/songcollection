@@ -15,8 +15,8 @@ var SongSchema = mongoose.Schema({
 
 var Songs = module.exports = mongoose.model('Songs', SongSchema);
 
-module.exports.getSongs = function(callback, limit){
-    Songs.find(callback).limit(limit);
+module.exports.getSongs = function(callback){    
+    Songs.find(callback);
 }
 
 module.exports.getSongById = function (id, callback) {
