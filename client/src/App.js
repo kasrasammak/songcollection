@@ -12,11 +12,11 @@ class App extends Component {
     idToUpdate: null,
     objectToUpdate: null,
     updateToApply: null,
+    updateToApply2: null,
+    emptyselect: "HI",
   };
 
  // fetch all existing data in our db at outset
-  // set interval to keep fetching data in order to see if our db has 
-  // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
     
@@ -35,7 +35,9 @@ class App extends Component {
 //     }
 //   }
 
-
+  checkSelectBar = () => {
+    
+  }
   // our first get method that uses our backend api to 
   // fetch data from our data base
   getDataFromDb = () => {
@@ -65,13 +67,8 @@ class App extends Component {
   // to remove existing database information
   deleteFromDB = idTodelete => {
     let objIdToDelete = null;
-    console.log(idTodelete)
     this.state.data.forEach(dat => {
-      console.log(dat);
-      if (dat.id === parseInt(idTodelete, 10)) {
-        
-        console.log(dat);
-        
+      if (dat.id === parseInt(idTodelete, 10)) {        
         objIdToDelete = dat._id;
       }
     });
@@ -83,24 +80,24 @@ class App extends Component {
 
   // our update method that uses our backend api
   // to overwrite existing data base information
-  updateDB = (idToUpdate, updateToApply) => {
+  updateDB = (idToUpdate, updateToApply, updateToApply2) => {
     let objIdToUpdate = null;
     this.state.data.forEach(dat => {
-      if (dat.id === idToUpdate) {
+      if (dat.id === parseInt(idToUpdate, 10)) {
         objIdToUpdate = dat._id;
       }
     });
 
-    axios.post("http://localhost:3001/api/update-song", {
-      id: objIdToUpdate,
-      update: { message: updateToApply }
-    });
-  };
+    // console.log(objIdToUpdate);
 
+    axios.put("http://localhost:3001/api/update-song", {
+      id: objIdToUpdate,
+      update: { title: updateToApply, artist: updateToApply2 }
+    }).then(this.getDataFromDb);
+  };
 
   render() {
     const { data } = this.state;
-    console.log(data);
     return (
       <div className="App">
         <h1>hi</h1>
@@ -144,6 +141,14 @@ class App extends Component {
           <select
             onChange={e => this.setState({ idToDelete: e.target.value })}
             >
+            <option 
+              value={-1}
+              key={"title"}
+            >
+              {data.length <= 0 
+                ? "Database Empty" 
+                : "Please Select Object to Delete"}
+            </option>
             {data.length <= 0
               ? "NO DB ENTRIES YET"
               : data.map(dat => (
@@ -168,15 +173,25 @@ class App extends Component {
             onChange={e => this.setState({ idToUpdate: e.target.value })}
             placeholder="id of item to update here"
           />
+          <br></br>
+          <div>Title</div>
           <input
             type="text"
             style={{ width: "200px" }}
             onChange={e => this.setState({ updateToApply: e.target.value })}
             placeholder="put new value of the item here"
           />
+        
+          <div>Artist</div>
+          <input
+            type="text"
+            style={{ width: "200px" }}
+            onChange={e => this.setState({ updateToApply2: e.target.value })}
+            placeholder="put new value of the item here"
+          />
           <button
             onClick={() =>
-              this.updateDB(this.state.idToUpdate, this.state.updateToApply)
+              this.updateDB(this.state.idToUpdate, this.state.updateToApply, this.state.updateToApply2)
             }
           >
             UPDATE
