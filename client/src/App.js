@@ -101,102 +101,112 @@ class App extends Component {
     return (
       <div className="App">
         <h1>hi</h1>
-        <ul>
-          {data.length <= 0
-            ? "NO DB ENTRIES YET"
-            : data.map(dat => (
-                <li style={{ padding: "10px" }} key={data.title}>
-                  <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
-                  <span style={{ color: "gray" }}> title: </span>
-                  {dat.title}
-                  <span style={{ color: "gray" }}> artist: </span>
-                  {dat.artist}
-                </li>
-              ))}
-        </ul>
-        <div style={{ padding: "10px" }}>
-          <input
-            type="text"
-            onChange={e => this.setState({ title: e.target.value })}
-            placeholder="title of song"
-            style={{ width: "200px" }}
-          />
-          <input
-            type="text"
-            onChange={e => this.setState({ artist: e.target.value })}
-            placeholder="song's artist"
-            style={{ width: "200px" }}
-          />
-          <button onClick={() => this.putDataToDB(this.state.title, this.state.artist)}>
-            ADD
-          </button>
-        </div>
-        <div style={{ padding: "10px" }}>
-          <input
-            type="text"
-            style={{ width: "200px" }}
-            onChange={e => this.setState({ idToDelete: e.target.value })}
-            placeholder="put id of item to delete here"
-          />
-          <select
-            onChange={e => this.setState({ idToDelete: e.target.value })}
-            >
-            <option 
-              value={-1}
-              key={"title"}
-            >
-              {data.length <= 0 
-                ? "Database Empty" 
-                : "Please Select Object to Delete"}
-            </option>
+        <div className="dataBase">
+          <ul>
             {data.length <= 0
               ? "NO DB ENTRIES YET"
               : data.map(dat => (
-                  <option 
-                    value={dat.id}
-                    key={data.title}
-                  >
-                      id: {dat.id}, 
-                      title: {dat.title}, 
-                      artist: {dat.artist}
-                  </option>
+                  <li style={{ padding: "10px" }} key={data.title}>
+                    <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
+                    <span style={{ color: "gray" }}> title: </span>
+                    {dat.title}
+                    <span style={{ color: "gray" }}> artist: </span>
+                    {dat.artist}
+                  </li>
                 ))}
-          </select>
-          <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
-            DELETE
-          </button>
+          </ul>
         </div>
-        <div style={{ padding: "10px" }}>
-          <input
-            type="text"
-            style={{ width: "200px" }}
-            onChange={e => this.setState({ idToUpdate: e.target.value })}
-            placeholder="id of item to update here"
-          />
-          <br></br>
-          <div>Title</div>
-          <input
-            type="text"
-            style={{ width: "200px" }}
-            onChange={e => this.setState({ updateToApply: e.target.value })}
-            placeholder="put new value of the item here"
-          />
-        
-          <div>Artist</div>
-          <input
-            type="text"
-            style={{ width: "200px" }}
-            onChange={e => this.setState({ updateToApply2: e.target.value })}
-            placeholder="put new value of the item here"
-          />
-          <button
-            onClick={() =>
-              this.updateDB(this.state.idToUpdate, this.state.updateToApply, this.state.updateToApply2)
-            }
-          >
-            UPDATE
-          </button>
+        <div className="inputstyles">
+          <div className="addstyles"style={{ padding: "10px" }}>
+            <input
+              type="text"
+              onChange={e => this.setState({ title: e.target.value })}
+              placeholder="title of song"
+              style={{ width: "200px" }}
+            />
+            <input
+              type="text"
+              onChange={e => this.setState({ artist: e.target.value })}
+              placeholder="song's artist"
+              style={{ width: "200px" }}
+            />
+            <button onClick={() => this.putDataToDB(this.state.title, this.state.artist)}>
+              ADD
+            </button>
+          </div>
+          <div className="deletestyles"style={{ padding: "10px" }}>
+            <input
+              type="text"
+              style={{ width: "200px" }}
+              onChange={e => this.setState({ idToDelete: e.target.value })}
+              placeholder="put id of item to delete here"
+            />
+            <select
+              onChange={e => this.setState({ idToDelete: e.target.value })}
+              >
+              <option 
+                value={-1}
+                key={"title"}
+              >
+                {data.length <= 0 
+                  ? "Database Empty" 
+                  : "Please Select Object to Delete"}
+              </option>
+              {data.length <= 0
+                ? "NO DB ENTRIES YET"
+                : data.map(dat => (
+                    <option 
+                      value={dat.id}
+                      key={data.title}
+                    >
+                        id: {dat.id}, 
+                        title: {dat.title}, 
+                        artist: {dat.artist}
+                    </option>
+                  ))}
+            </select>
+            <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
+              DELETE
+            </button>
+          </div>
+          <div className="updatestyles"style={{ padding: "10px" }}>
+          <div className="update1">
+            <input
+                type="text"
+                style={{ width: "200px" }}
+                onChange={e => this.setState({ idToUpdate: e.target.value })}
+                placeholder="id of song to update here"
+              />
+              <br></br>
+              <div className="titletext">Title: </div>
+              <input
+                type="text"
+                style={{ width: "200px" }}
+                onChange={e => this.setState({ updateToApply: e.target.value })}
+                placeholder="put title of the song here"
+              />
+              <div className="artisttext">Artist: </div>
+              <input
+                type="text"
+                style={{ width: "200px" }}
+                onChange={e => this.setState({ updateToApply2: e.target.value })}
+                placeholder="put artist name here"
+              />
+          </div>
+          
+            <div className="update2">
+              <button
+                onClick={() =>
+                  this.updateDB(this.state.idToUpdate, this.state.updateToApply, this.state.updateToApply2)
+                }
+              >
+                UPDATE
+              </button>
+            </div>
+            
+          </div>
         </div>
+
       </div>
     );
   }

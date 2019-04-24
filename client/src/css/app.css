@@ -1,0 +1,57 @@
+* {
+    font-family: Helvetica;
+  }
+
+  .dataBase {
+      background: lightgreen;
+      height: 100%;
+      width: 50%;
+      margin: 10%;
+      border-radius: 50px;
+    
+  }
+
+  .inputstyles {
+      background: pink;
+      border-radius: 50px;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      margin: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly; 
+  }
+
+  .addstyles {
+      background: green;
+      height: 100%;
+      width: 50%;
+      border: solid black 1px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    
+  }
+  .deletestyles {
+    background: red;
+    height: 100%;
+    width: 50%;
+    border: solid black 1px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.updatestyles {
+    background: lightblue;
+    height: 100%;
+    width: 50%;
+    border: solid black 1px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+}
