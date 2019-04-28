@@ -7,7 +7,6 @@ class App extends Component {
     id: 0,
     title: null,
     artist: null,
-    intervalIsSet: false,
     idToDelete: null,
     idToUpdate: null,
     objectToUpdate: null,
@@ -19,23 +18,6 @@ class App extends Component {
  // fetch all existing data in our db at outset
   componentDidMount() {
     this.getDataFromDb();
-    
-    // if (!this.state.intervalIsSet) {
-    //   let interval = setInterval(this.getDataFromDb, 1000);
-    //   this.setState({ intervalIsSet: interval });
-    // }
-  }
-
-//   // never let a process live forever 
-//   // always kill a process everytime we are done using it
-//   componentWillUnmount() {
-//     if (this.state.intervalIsSet) {
-//       clearInterval(this.state.intervalIsSet);
-//       this.setState({ intervalIsSet: null });
-//     }
-//   }
-
-  checkSelectBar = () => {
     
   }
   // our first get method that uses our backend api to 
@@ -88,9 +70,7 @@ class App extends Component {
       }
     });
 
-    // console.log(objIdToUpdate);
-
-    axios.put("http://localhost:3001/api/update-song", {
+    axios.put(`http://localhost:3001/api/update-song/${objIdToUpdate}`, {
       id: objIdToUpdate,
       update: { title: updateToApply, artist: updateToApply2 }
     }).then(this.getDataFromDb);

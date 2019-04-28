@@ -10,7 +10,6 @@ router.get('/', function(req, res, next){
             res.send(err);
         }
         res.json(songs);
-        console.log("Send songs")
     });
 });
 
